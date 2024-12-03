@@ -23,8 +23,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection (if necessary)
                 .authorizeRequests(authorize ->
                         authorize
+                                .requestMatchers("/swagger-ui/**",
+                                        "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/api/v1/user/**").permitAll() // Allow public access to login and register endpoints
                                 .requestMatchers("/api/v1/articles/**").permitAll()
+
 
                 )
                 .logout(logout -> logout
