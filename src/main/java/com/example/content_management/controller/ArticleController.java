@@ -9,6 +9,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,15 +32,13 @@ public class ArticleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
     }
 
-
-
     @GetMapping
     public ResponseEntity<List<ArticleDTO>> getAllArticles() {
         List<ArticleDTO> articles = articleService.getAllArticles();
         return ResponseEntity.ok(articles);
     }
 
-    @DeleteMapping("/{authorId}")
+    @DeleteMapping(value = "/{authorId}")
     public ResponseEntity<?> deleteArticle(@PathVariable("authorId") String id) {
         try {
             articleService.deleteArticle(id);
@@ -49,13 +48,8 @@ public class ArticleController {
         }
     }
 
-    @PatchMapping
-    public ResponseEntity<?> update(@RequestBody ArticleDTO articleDTO) {
-        try {
-            articleService.updateArticle(articleDTO.getAuthorId(), articleDTO);
-            return ResponseEntity.ok("Article updated successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @PatchMapping(value = "/{authorId}")
+    public ResponseEntity<?> update(@RequestBody ArticleDTO articleDTO) throws ChangeSetPersister.NotFoundException {
+        return articleService.updateArticle(articleDTO.getAuthorId(), articleDTO);
     }
 }

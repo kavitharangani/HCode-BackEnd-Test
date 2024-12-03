@@ -1,8 +1,10 @@
 package com.example.content_management.util;
 
 import com.example.content_management.dto.ArticleDTO;
+import com.example.content_management.dto.MediaDTO;
 import com.example.content_management.dto.UserDTO;
 import com.example.content_management.entity.ArticleEntity;
+import com.example.content_management.entity.MediaEntity;
 import com.example.content_management.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,5 +40,20 @@ public class Mapping {
     public List<ArticleDTO> toArticleDTOList(List<ArticleEntity> article) {
         return mapper.map(article, List.class);
     }
+
+
+
+    /////////Media////////
+
+    public MediaDTO toMediaDTO(MediaEntity media) {
+        return  mapper.map(media, MediaDTO.class);
+    }
+    public MediaEntity toMedia(MediaDTO mediaDTO) {
+        return  mapper.map(mediaDTO, MediaEntity.class);
+    }
+    public List<MediaDTO> toMediaDTOList(List<MediaEntity> media) {
+        return mapper.map(media, List.class);
+    }
+
 
 }

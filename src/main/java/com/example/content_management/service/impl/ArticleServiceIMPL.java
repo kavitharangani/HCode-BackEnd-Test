@@ -6,12 +6,11 @@ import com.example.content_management.repo.ArticleDAO;
 import com.example.content_management.service.ArticleService;
 import com.example.content_management.util.Mapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +23,6 @@ public class ArticleServiceIMPL implements ArticleService {
 
     @Override
     public ArticleDTO saveArticle(ArticleDTO article) {
-        article.setId(UUID.randomUUID().toString());
         return mapping.toArticleDTO(articleDAO.save(mapping.toArticle(article)));
     }
 
@@ -45,8 +43,8 @@ public class ArticleServiceIMPL implements ArticleService {
     }
 
     @Override
-    public void updateArticle(String authorId, ArticleDTO articleDTO) {
-        ArticleEntity tmpArticle = articleDAO.findById(authorId)
+    public ResponseEntity<?> updateArticle(String id, ArticleDTO articleDTO) {
+        ArticleEntity tmpArticle = articleDAO.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
 
         tmpArticle.setAuthorId(articleDTO.getAuthorId());
@@ -54,5 +52,6 @@ public class ArticleServiceIMPL implements ArticleService {
         tmpArticle.setContent(articleDTO.getContent());
 
         articleDAO.save(tmpArticle);
+        return null;
     }
 }

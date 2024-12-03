@@ -1,5 +1,8 @@
 package com.example.content_management.service;
 import com.example.content_management.dto.ArticleDTO;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface ArticleService {
@@ -10,5 +13,5 @@ public interface ArticleService {
 
     void deleteArticle(String id);
 
-    void updateArticle(String authorId, ArticleDTO articleDTO);
+    ResponseEntity<?> updateArticle(String authorId, ArticleDTO articleDTO)throws ChangeSetPersister.NotFoundException;
 }

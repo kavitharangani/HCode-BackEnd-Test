@@ -24,14 +24,8 @@ public class SecurityConfig {
                 .authorizeRequests(authorize ->
                         authorize
                                 .requestMatchers("/api/v1/user/**").permitAll() // Allow public access to login and register endpoints
-//                                .anyRequest().authenticated() // Secure all other endpoints
-//                                .requestMatchers("/api/v1/articles/health").permitAll()
-                                  .requestMatchers("/api/v1/articles/**").authenticated()
-//                                .authorizeRequests().anyRequest().permitAll();
+                                .requestMatchers("/api/v1/articles/**").permitAll()
 
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)  // Ensure session is created
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/v1/user/logout") // Define the logout URL
