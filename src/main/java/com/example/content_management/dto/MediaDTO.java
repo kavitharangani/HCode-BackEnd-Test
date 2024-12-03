@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +18,5 @@ public class MediaDTO {
     private UserEntity user;
     private String fileName;
     private String fileUrl;
-    private LocalDateTime uploadedAt;
+    private Date uploadedAt;
 }

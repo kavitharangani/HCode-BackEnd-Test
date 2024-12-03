@@ -42,9 +42,7 @@ public class Mapping {
     }
 
 
-
     /////////Media////////
-
     public MediaDTO toMediaDTO(MediaEntity media) {
         return  mapper.map(media, MediaDTO.class);
     }
@@ -54,6 +52,5 @@ public class Mapping {
     public List<MediaDTO> toMediaDTOList(List<MediaEntity> media) {
         return mapper.map(media, List.class);
     }
-
 
 }
