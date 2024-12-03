@@ -43,15 +43,21 @@ public class ArticleServiceIMPL implements ArticleService {
     }
 
     @Override
-    public ResponseEntity<?> updateArticle(String id, ArticleDTO articleDTO) {
-        ArticleEntity tmpArticle = articleDAO.findById(id)
+    public ResponseEntity<?> updateArticle(String authorId, ArticleDTO articleDTO) {
+        // Fetch the article by the given authorId
+        ArticleEntity tmpArticle = articleDAO.findById(authorId)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
 
+        // Update the fields of the article entity with data from the DTO
         tmpArticle.setAuthorId(articleDTO.getAuthorId());
         tmpArticle.setTitle(articleDTO.getTitle());
         tmpArticle.setContent(articleDTO.getContent());
 
+        // Save the updated article back to the database
         articleDAO.save(tmpArticle);
-        return null;
+
+        // Return a successful response (you can return the updated article as a response body if needed)
+        return ResponseEntity.ok(tmpArticle);
     }
+
 }

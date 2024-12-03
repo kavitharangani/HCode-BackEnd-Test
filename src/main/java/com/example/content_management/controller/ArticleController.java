@@ -49,7 +49,13 @@ public class ArticleController {
     }
 
     @PatchMapping(value = "/{authorId}")
-    public ResponseEntity<?> update(@RequestBody ArticleDTO articleDTO) throws ChangeSetPersister.NotFoundException {
-        return articleService.updateArticle(articleDTO.getAuthorId(), articleDTO);
+    public ResponseEntity<?> update(@PathVariable String authorId, @RequestBody ArticleDTO articleDTO) throws ChangeSetPersister.NotFoundException {
+        // Ensure the authorId in the URL matches the one in the DTO (optional)
+        if (!authorId.equals(articleDTO.getAuthorId())) {
+            return ResponseEntity.badRequest().body("Author ID mismatch");
+        }
+
+        return articleService.updateArticle(authorId, articleDTO);
     }
+
 }
