@@ -19,6 +19,7 @@ import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/media")
@@ -60,4 +61,55 @@ public class MediaController {
 
         return mediaService.saveMedia(buildMedia);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteMedia(@PathVariable String id) {
+        mediaService.deleteMediaById(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public MediaDTO updateMedia(@Valid
+                                @RequestPart("fileUrl") MultipartFile fileUrl,
+                                @RequestPart("fileName") String fileName,
+                                @RequestPart("uploadedAt") String uploadedAt,
+                                @RequestParam("id") String id,
+                                Errors errors) {
+        if (errors.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.getFieldErrors().get(0).getDefaultMessage());
+        }
+
+        // Convert MultipartFile to Base64 string
+        String base64ProPic;
+        try {
+            base64ProPic = UtilMatters.convertBase64(String.valueOf(fileUrl.getBytes()));
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing file upload", e);
+        }
+
+
+
+        MediaDTO updateMedia = new MediaDTO();
+        updateMedia.setFileUrl(base64ProPic);
+        updateMedia.setFileName(fileName);
+        updateMedia.setUploadedAt(Date.valueOf(uploadedAt));
+
+        return mediaService.updateMedia(id, updateMedia);
+    }
+
+
+
+
+    @GetMapping("/{id}")
+    public MediaDTO getMediaById(@PathVariable String id) {
+        return mediaService.getMediaById(id);
+    }
+
+
+    @GetMapping
+    public List<MediaDTO> getAllMedia() {
+        return mediaService.getAllMedia();
+    }
+
 }

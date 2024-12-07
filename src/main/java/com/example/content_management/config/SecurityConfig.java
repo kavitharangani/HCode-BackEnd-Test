@@ -27,6 +27,7 @@ public class SecurityConfig {
                                         "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/api/v1/user/**").permitAll() // Allow public access to login and register endpoints
                                 .requestMatchers("/api/v1/articles/**").permitAll()
+                                .requestMatchers("/api/v1/media/**").permitAll()
 
 
                 )
