@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/articles")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:63342")
 public class ArticleController {
     private final ArticleService articleService;
 

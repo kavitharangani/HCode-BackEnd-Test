@@ -19,7 +19,9 @@ import java.time.LocalDateTime;
 public class ArticleEntity {
     @Id
     private String id;
-    private String authorId;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private UserEntity author;
     private String title;
     private String content;
     @Enumerated(EnumType.STRING)
